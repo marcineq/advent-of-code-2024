@@ -41,8 +41,8 @@ public class ProblemReader {
 	}
 
 	private List<Page> mapTaskLine(String line, Map<String, Page> constraintMap) {
-		List<Page> result = new ArrayList<>(line.length());
 		String[] numbers = line.split(",");
+		List<Page> result = new ArrayList<>(numbers.length);
 		for (String number : numbers) {
 			result.add(constraintMap.get(number));
 		}
