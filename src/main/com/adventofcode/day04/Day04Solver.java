@@ -2,7 +2,6 @@ package com.adventofcode.day04;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +27,6 @@ public class Day04Solver {
 
     private final ProblemReader problemReader;
 
-    private List<Node> startingNodes = new ArrayList<>();
-
     public Day04Solver(ProblemReader problemReader) {
         this.problemReader = problemReader;
         problemReader.setStartingLetter(X);
@@ -37,30 +34,30 @@ public class Day04Solver {
 
 
     public int solve(File problemFile) throws IOException {
-        readProblemFile(problemFile);
+        List<Node> startingNodes = readProblemFile(problemFile);
 
         int wordsFound = 0;
         for (Node node : startingNodes) {
             for (int i = 0; i < DIRECTIONS; i++) {
-                wordsFound += expand(node, node.getNode(i), i);
+                wordsFound += expand(node, i);
             }
         }
         return wordsFound;
     }
 
-    private int expand(Node current, Node candidate, int direction) {
+    private int expand(Node current, int direction) {
+        Node candidate = current.getNode(direction);
         if (candidate != null && STATES.get(current.getLetter()) == candidate.getLetter()) {
             if (candidate.getLetter() == LAST_LETTER) {
                 return 1;
             }
-            return expand(candidate, candidate.getNode(direction), direction);
+            return expand(candidate, direction);
         }
 
         return 0;
     }
 
-    private void readProblemFile(File problemFile) throws IOException {
-        ProblemReader.Result result = problemReader.readProblemFile(problemFile);
-        startingNodes = result.getStartingNodes();
+    private List<Node> readProblemFile(File problemFile) throws IOException {
+        return problemReader.readProblemFile(problemFile).getStartingNodes();
     }
 }
