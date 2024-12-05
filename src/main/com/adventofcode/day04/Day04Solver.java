@@ -16,7 +16,7 @@ import static com.adventofcode.day04.Letter.X;
  */
 public class Day04Solver {
 
-    private static Map<Letter, Letter> STATES = Map.of(
+    private static final Map<Letter, Letter> STATES = Map.of(
         X, M,
         M, A,
         A, S);

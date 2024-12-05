@@ -1,11 +1,10 @@
 package com.adventofcode.day04;
 
-import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.io.IOException;
-
+import static com.adventofcode.util.Util.getFileFromClasspath;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+import org.junit.jupiter.api.Test;
 
 class Day04Solver2Test {
 
@@ -15,13 +14,13 @@ class Day04Solver2Test {
 
     @Test
     void testExample() throws IOException {
-        int solution = solver.solve(new File(getClass().getResource("example.txt").getFile()));
+        int solution = solver.solve(getFileFromClasspath(this,"example.txt"));
         assertEquals(9, solution);
     }
 
     @Test
     void answerProblem() throws IOException {
-        int solution = solver.solve(new File(getClass().getResource("problem.txt").getFile()));
+        int solution = solver.solve(getFileFromClasspath(this,"problem.txt"));
         System.out.println("Solution: " + solution);
     }
 
