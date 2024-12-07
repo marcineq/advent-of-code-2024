@@ -4,14 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ProblemReader {
 
+	/**
+	 *
+	 * @param file
+	 * @return list of tasks to be processed, where each task is a list of pages
+	 * @throws IOException
+	 */
 	public List<List<Page>> readProblemFile(File file) throws IOException {
 		Map<String, Page> constraintMap = new LinkedHashMap<>();
 		try (BufferedReader in = new BufferedReader(new FileReader(file))) {
@@ -41,12 +48,9 @@ public class ProblemReader {
 	}
 
 	private List<Page> mapTaskLine(String line, Map<String, Page> constraintMap) {
-		String[] numbers = line.split(",");
-		List<Page> result = new ArrayList<>(numbers.length);
-		for (String number : numbers) {
-			result.add(constraintMap.get(number));
-		}
-		return result;
+		return Arrays.stream(line.split(","))
+			.map(constraintMap::get)
+			.collect(Collectors.toList());
 	}
 
 }
