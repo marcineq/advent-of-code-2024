@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 /**
@@ -66,30 +65,28 @@ public class Day06Solver {
 
 		logger.info("Nodes to process: " + visitedNodes.size());
 
-		AtomicInteger validObstructionPositions = new AtomicInteger(0);
-		List<Future<?>> futures = new LinkedList<>();
+		int validObstructionPositions = 0;
+		List<Future<Integer>> futures = new LinkedList<>();
 		try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
 			// we will place obstructions only on a path visited by the guard
 			for (Node node : visitedNodes) {
 				if (node == problemDefinition.getStartingNode() || node.isObstacle()) {
 					continue;
 				}
-				futures.add(executorService.submit(() -> {
-					validObstructionPositions.addAndGet(runPath(problemDefinition, node));
-				}));
+				futures.add(executorService.submit(() -> runPath(problemDefinition, node)));
 			}
 		}
 
-		for (Future<?> future : futures) {
+		for (Future<Integer> future : futures) {
 			try {
-				future.get();
+				validObstructionPositions += future.get();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			} catch (ExecutionException e) {
 				throw new RuntimeException(e);
 			}
 		}
-		return validObstructionPositions.intValue();
+		return validObstructionPositions;
 	}
 
 	private int runPath(ProblemDefinition problemDefinition, Node newObstruction) {
