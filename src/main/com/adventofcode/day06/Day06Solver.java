@@ -95,18 +95,19 @@ public class Day06Solver {
 		Node node = problemDefinition.getStartingNode();
 		int direction = problemDefinition.getStartingDirection();
 		while ((node = node.getNode(direction)) != null) {
+			if (node.isObstacle() || node == newObstruction) {
+				// step back from obstacle
+				node = node.getNode((direction + 4) % 8);
+				direction = (direction + 2) % 8;
+				continue;
+			}
+
 			Set<Integer> visitedDirections =
 				visitedNodes.computeIfAbsent(node, k -> new HashSet<>());
 			if (visitedDirections.contains(direction)) {
 				return 1;
 			}
 			visitedDirections.add(direction);
-
-			if (node.isObstacle() || node == newObstruction) {
-				// step back from obstacle
-				node = node.getNode((direction + 4) % 8);
-				direction = (direction + 2) % 8;
-			}
 		}
 
 		return 0;
