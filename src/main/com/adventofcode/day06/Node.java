@@ -6,8 +6,6 @@ public class Node {
 
     private final boolean obstacle;
 
-    private boolean newObstruction;
-
     /*
        zero value for node to right
        5 6 7
@@ -54,19 +52,10 @@ public class Node {
         return adjacentNodes;
     }
 
-    public boolean isNewObstruction() {
-        return newObstruction;
-    }
-
-    public void setNewObstruction(boolean newObstruction) {
-        this.newObstruction = newObstruction;
-    }
-
     @Override
     public String toString() {
         return "Node{" +
             "obstacle=" + obstacle +
-            ", newObstruction=" + newObstruction +
             '}';
     }
 
@@ -98,9 +87,6 @@ public class Node {
         String s = ".";
         if (node.isObstacle()) {
             s = "#";
-        }
-        if (node.isNewObstruction()) {
-            s = "O";
         }
         if (isVisited) {
             s = "|";
