@@ -44,15 +44,17 @@ public class Day06Solver {
 		Node node = problemDefinition.getStartingNode();
 		int direction = problemDefinition.getStartingDirection();
 		visitedNodes.add(node);
+		Node previousNode = node;
 		while ((node = node.getNode(direction)) != null) {
 			if (node.isObstacle()) {
-				// step back from obstacle
-				node = node.getNode((direction + 4) % 8);
+				// step back from obstacle and turn 90 deg right
+				node = previousNode;
 				direction = (direction + 2) % 8;
 				continue;
 			}
 
 			visitedNodes.add(node);
+			previousNode = node;
 		}
 
 		return visitedNodes;
@@ -94,10 +96,11 @@ public class Day06Solver {
 		Map<Node, Set<Integer>> visitedNodes = new HashMap<>();
 		Node node = problemDefinition.getStartingNode();
 		int direction = problemDefinition.getStartingDirection();
+		Node previousNode = node;
 		while ((node = node.getNode(direction)) != null) {
 			if (node.isObstacle() || node == newObstruction) {
-				// step back from obstacle
-				node = node.getNode((direction + 4) % 8);
+				// step back from obstacle and turn 90 deg right
+				node = previousNode;
 				direction = (direction + 2) % 8;
 				continue;
 			}
@@ -108,6 +111,7 @@ public class Day06Solver {
 				return 1;
 			}
 			visitedDirections.add(direction);
+			previousNode = node;
 		}
 
 		return 0;
